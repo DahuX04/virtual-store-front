@@ -108,7 +108,7 @@ function SidebarContent({ items, onNavigate, onLogout }) {
                     </ListItemIcon>
                     <ListItemText
                         primary="Cerrar Sesión"
-                        primaryTypographyProps={{ fontSize: 13, fontWeight: 600 }}
+                        primaryTypographyProps={{ fontSize: 18, fontWeight: 500 }}
                     />
                 </ListItemButton>
             </Box>
