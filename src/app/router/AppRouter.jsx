@@ -1,0 +1,33 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginPage from "../../features/auth/pages/LoginPage";
+import AdminView from "../../features/admin/pages/AdminView";
+import RequireRole from "../../shared/router/RequireRole";
+import AdminLayout from "../../features/admin/layouts/AdminLayout";
+import AdminViewDashboard from "../../features/admin/pages/AdminViewDashboard";
+import AdminViewProducts from "../../features/admin/pages/AdminViewProducts";
+import AdminViewBrands from "../../features/admin/pages/AdminViewBrands";
+
+function Forbidden() {
+    return <div className="p-10">No autorizado</div>;
+}
+
+export default function AppRouter() {
+
+    return (
+        <Routes>
+            <Route path="/login" element={<LoginPage />}>
+            </Route>
+            <Route path="/forbidden" element={<Forbidden />} />
+
+            <Route element={<RequireRole role="ADMIN" />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<AdminView />} />
+                    <Route path="dashboard" element={<AdminViewDashboard />} />
+                    {<Route path="productos" element={<AdminViewProducts />} />}
+                    {<Route path="marcas" element={<AdminViewBrands />} />}
+                </Route>
+            </Route>
+        </Routes>
+    );
+
+}
