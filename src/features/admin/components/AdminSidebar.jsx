@@ -84,7 +84,7 @@ function SidebarContent({ items, onNavigate, onLogout }) {
                             </ListItemIcon>
                             <ListItemText
                                 primary={it.label}
-                                primaryTypographyProps={{ fontSize: 15, fontWeight: active ? 720 : 500 }}
+                                primaryTypographyProps={{ fontSize: 15, fontWeight: active ? 600 : 300 }}
                             />
                         </ListItemButton>
                     );
@@ -103,12 +103,12 @@ function SidebarContent({ items, onNavigate, onLogout }) {
                         "&:hover": { bgcolor: "rgba(80,30,20,0.08)" },
                     }}
                 >
-                    <ListItemIcon sx={{ minWidth: 38, color: "inherit" }}>
+                    <ListItemIcon sx={{ minWidth: 38, color: "#2C2423" }}>
                         <LogoutOutlinedIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText
                         primary="Cerrar Sesión"
-                        primaryTypographyProps={{ fontSize: 18, fontWeight: 500 }}
+                        primaryTypographyProps={{ fontSize: 18, fontWeight: 500, color: "#2C2423" }}
                     />
                 </ListItemButton>
             </Box>

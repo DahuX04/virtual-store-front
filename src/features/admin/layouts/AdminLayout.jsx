@@ -51,49 +51,61 @@ export default function AdminLayout() {
     };
 
     return (
-        <div className="relative min-h-screen bg-[#EFE4E2] overflow-hidden">
+        <Box sx={{ position: "relative", minHeight: "100vh", bgcolor: "#EFE4E2", overflow: "hidden" }}>
             {/* Fondo */}
-            <div className="absolute inset-0 pointer-events-none opacity-25">
-                <div
-                    className="absolute left-1/2 top-1/2"
-                    style={{ transform: "translate(-50%, -50%) scale(1.35)" }}
+            <Box sx={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.25 }}>
+                <Box
+                    sx={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%) scale(1.35)",
+                    }}
                 >
                     <BackgroundVectorSvg height={1117} width={1728} color="#FBF8F7" />
-                </div>
-            </div>
+                </Box>
+            </Box>
 
-            <div className="relative z-10 min-h-screen md:grid md:grid-cols-[308px_1fr]">
-                <div className="hidden md:block">
+            {/* Layout */}
+            <Box
+                sx={{
+                    position: "relative",
+                    zIndex: 1,
+                    minHeight: "100vh",
+                    display: { xs: "block", md: "grid" }, // MUI md = 900px
+                    gridTemplateColumns: { md: "308px 1fr" },
+                }}
+            >
+                {/* Sidebar (el mismo componente ya maneja Paper (md+) y Drawer (xs)) */}
+                <Box sx={{ minHeight: 0 }}>
                     <AdminSidebar
                         items={adminNavItems}
                         mobileOpen={mobileOpen}
                         onMobileClose={() => setMobileOpen(false)}
                         onLogout={handleLogout}
                     />
-                </div>
+                </Box>
 
-                <div className="min-h-screen flex flex-col p-6 md:p-8">
+                {/* Main */}
+                <Box
+                    sx={{
+                        minHeight: "100vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        p: { xs: 2, sm: 3, md: 4 },
+                    }}
+                >
                     <AdminNavbar
                         user={user}
                         onOpenSidebar={() => setMobileOpen(true)}
                         onLogout={handleLogout}
                     />
 
-                    <Box sx={{ flex: 1, mt: 3 }}>
+                    <Box sx={{ flex: 1, mt: 3, minHeight: 0, display: "flex", flexDirection: "column" }}>
                         <Outlet />
                     </Box>
-                </div>
-
-                {/* Sidebar mobile (solo drawer) */}
-                <div className="md:hidden">
-                    <AdminSidebar
-                        items={adminNavItems}
-                        mobileOpen={mobileOpen}
-                        onMobileClose={() => setMobileOpen(false)}
-                        onLogout={handleLogout}
-                    />
-                </div>
-            </div>
-        </div>
+                </Box>
+            </Box>
+        </Box>
     );
 }
