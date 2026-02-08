@@ -7,6 +7,7 @@ import AdminViewDashboard from "../../features/admin/pages/AdminViewDashboard";
 import AdminViewProducts from "../../features/admin/pages/AdminViewProducts";
 import AdminViewBrands from "../../features/admin/pages/AdminViewBrands";
 import StoreHome from "../../features/store/pages/StoreHome";
+import AdminViewSells from "../../features/admin/pages/AdminViewSells";
 
 function Forbidden() {
     return <div className="p-10">No autorizado</div>;
@@ -27,6 +28,7 @@ export default function AppRouter() {
                     <Route path="dashboard" element={<AdminViewDashboard />} />
                     {<Route path="productos" element={<AdminViewProducts />} />}
                     {<Route path="marcas" element={<AdminViewBrands />} />}
+                    {<Route path="ventas" element={<AdminViewSells />} />}
                 </Route>
             </Route>
         </Routes>
