@@ -7,6 +7,7 @@ import AdminViewDashboard from "../../features/admin/pages/AdminViewDashboard";
 import AdminViewProducts from "../../features/admin/pages/AdminViewProducts";
 import AdminViewBrands from "../../features/admin/pages/AdminViewBrands";
 import StoreHome from "../../features/store/pages/StoreHome";
+import CategoriesPage from "../../features/store/pages/CategoriesPage";
 import AdminViewSells from "../../features/admin/pages/AdminViewSells";
 
 function Forbidden() {
@@ -20,6 +21,7 @@ export default function AppRouter() {
             <Route path="/login" element={<LoginPage />}>
             </Route>
             <Route path="/store" element={<StoreHome />} />
+            <Route path="/store/categories" element={<CategoriesPage />} />
             <Route path="/forbidden" element={<Forbidden />} />
 
             <Route element={<RequireRole role="ADMIN" />}>

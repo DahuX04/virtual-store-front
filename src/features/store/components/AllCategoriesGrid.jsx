@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
 import { Box, Container, Grid, Typography, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { getCategoriesPaged, getCategoryImageByCategoryId } from "../api/CategoryApi";
 
-export default function CategorySection() {
-
+export default function AllCategoriesGrid() {
     const [categories, setCategories] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        loadCategories();
+        loadAllCategories();
     }, []);
 
-    async function loadCategories() {
+    async function loadAllCategories() {
         try {
             const paged = await getCategoriesPaged({
                 page: 0,
-                size: 4,
+                size: 100, 
                 sortDir: "DESC",
             });
 
@@ -25,30 +22,23 @@ export default function CategorySection() {
             const withImages = await Promise.all(
                 paged.content.map(async (cat) => {
                     let imageUrl = null;
-
                     try {
                         const img = await getCategoryImageByCategoryId(cat.id);
                         imageUrl = img?.url || null;
                     } catch (e) {
-                        console.error("IMG ERROR", e);
+                        console.error("Error cargando imagen:", e);
                     }
-
-                    return {
-                        id: cat.id,
-                        name: cat.name,
-                        imageUrl
-                    };
+                    return { id: cat.id, name: cat.name, imageUrl };
                 })
             );
             setCategories(withImages);
-
         } catch (err) {
             console.error(err);
         }
     }
 
     return (
-        <Container maxWidth="xl" sx={{ py: 6, backgroundColor: "#f5f3f2" }}  > 
+        <Container maxWidth="xl" sx={{ py: 6 , backgroundColor: "#f5f3f2" }}  >
             <Box sx={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -58,23 +48,6 @@ export default function CategorySection() {
                 <Typography variant="h5" sx={{ fontWeight: 500, color: "#501E14" }}>
                     Categorías
                 </Typography>
-
-                <Button 
-                    variant="text"
-                    sx={{
-                        color: "#2C2423",
-                        textTransform: "none",
-                        p: 0,
-                        minWidth: "auto",
-                        "&:hover": {
-                            backgroundColor: "transparent",
-                            textDecoration: "underline"
-                        }
-                    }}
-                    onClick={() => navigate("/store/categories")}
-                >
-                    Ver todo
-                </Button>
             </Box>
 
             <Grid

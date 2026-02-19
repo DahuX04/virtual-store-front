@@ -61,7 +61,7 @@ export default function ProductsCarousel() {
     }
 
     return (
-        <Container maxWidth="xl" sx={{ py: 6 }}>
+        <Container maxWidth="xl" sx={{ py: 6 , backgroundColor: "#f5f3f2"}} backgroundColor= "#f5f3f2" >
 
             <Box sx={{
                 display: "flex",
@@ -69,7 +69,7 @@ export default function ProductsCarousel() {
                 alignItems: "center",
                 mb: 4
             }}>
-                <Typography variant="h5">
+                <Typography variant="h5" sx={{ fontWeight: 500, color: "#501E14" }}>
                     Productos
                 </Typography>
 
