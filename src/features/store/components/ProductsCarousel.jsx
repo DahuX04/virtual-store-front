@@ -61,7 +61,7 @@ export default function ProductsCarousel() {
     }
 
     return (
-        <Container maxWidth="xl" sx={{ py: 6 , backgroundColor: "#f5f3f2"}} backgroundColor= "#f5f3f2" >
+        <Container maxWidth="xl" sx={{ py: 6 , backgroundColor: "#f5f3f2"}}>
 
             <Box sx={{
                 display: "flex",
