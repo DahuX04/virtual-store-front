@@ -9,6 +9,14 @@ export async function getProductsPaged(params = {}) {
     return response.data?.data || null;
 }
 
+export async function getProductByCategory(categoryId, params = {}) {
+    const response = await httpClient.get(
+        `/api/v1/virtualStore/products/category/${categoryId}`,
+        { params }
+    );
+    return response.data?.data || null;
+}
+
 export async function getProductImageByProductId(id) {
     const response = await httpClient.get(
         `/api/v1/virtualStore/product-images/product/${id}`
