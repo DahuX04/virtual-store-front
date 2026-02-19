@@ -8,6 +8,7 @@ import AdminViewProducts from "../../features/admin/pages/AdminViewProducts";
 import AdminViewBrands from "../../features/admin/pages/AdminViewBrands";
 import StoreHome from "../../features/store/pages/StoreHome";
 import CategoriesPage from "../../features/store/pages/CategoriesPage";
+import ProductsPage from "../../features/store/pages/ProductsPage";
 import ProductsByCategoryPage from "../../features/store/pages/ProductsByCategoryPage";
 import AdminViewSells from "../../features/admin/pages/AdminViewSells";
 
@@ -21,10 +22,14 @@ export default function AppRouter() {
         <Routes>
             <Route path="/login" element={<LoginPage />}>
             </Route>
-            <Route path="/store" element={<StoreHome />} />
-            <Route path="/store/categories" element={<CategoriesPage />} />
-            <Route path="/store/categories/:id/products" element={<ProductsByCategoryPage />} />
+            <Route path="/store">
+                <Route index element={<StoreHome />} />
+                <Route path="products" element={<ProductsPage />} />
+                <Route path="categories" element={<CategoriesPage />} />
+                <Route path="categories/:id/products" element={<ProductsByCategoryPage />} />
+            </Route>
             <Route path="/forbidden" element={<Forbidden />} />
+            
 
             <Route element={<RequireRole role="ADMIN" />}>
                 <Route path="/admin" element={<AdminLayout />}>

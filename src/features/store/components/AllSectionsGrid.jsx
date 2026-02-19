@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Container, Grid, Typography, Button, CircularProgress } from "@mui/material";
 import { getCategoriesPaged, getCategoryImageByCategoryId } from "../api/CategoryApi";
-import { getProductByCategory, getProductImageByProductId } from "../api/ProductsApi";
+import { getProductByCategory, getProductImageByProductId, getProductsPaged } from "../api/ProductsApi";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function AllSectionsGrid({ title, type = "categories" }) {
@@ -13,8 +13,10 @@ export default function AllSectionsGrid({ title, type = "categories" }) {
     useEffect(() => {
         if (type === "categories") {
             loadAllCategories();
-        } else {
-            loadProductsByCat();
+        } else if (type === "productsByCategory") {
+            loadProductsByCat(); 
+        } else if (type === "products") {
+            loadAllProducts();
         }
     }, [id, type])
 
@@ -67,7 +69,41 @@ export default function AllSectionsGrid({ title, type = "categories" }) {
                         name: prod.name, 
                         price: prod.price,
                         imageUrl,
-                        link: `/store/products/${prod.id}` 
+                        link: `/store` 
+                    };
+                })
+            );
+            setItems(data);
+        } catch (err) { console.error(err); }
+        setLoading(false);
+    }
+
+    async function loadAllProducts() {
+        setLoading(true);
+        try {
+            const paged = await getProductsPaged({ page: 0, size: 50, sortDir: "DESC" });
+            if (!paged?.content) {
+                setItems([]);
+                setLoading(false);
+                return;
+            }
+            const data = await Promise.all(
+                paged.content.map(async (prod) => {
+                    let imageUrl = null;
+                    try {
+                        const img = await getProductImageByProductId(prod.id);
+                        imageUrl = Array.isArray(img)
+                            ? img?.[0]?.url ?? null
+                            : img?.url ?? null;
+                    }
+                    catch {
+                    }
+                    return {
+                        id: prod.id,
+                        name: prod.name,
+                        price: prod.price,
+                        imageUrl,
+                        link: `/store`
                     };
                 })
             );

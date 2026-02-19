@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Grid, Typography, Button } from "@mui/material";
+import { Box, Container, Grid, Typography, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { getCategoriesPaged, getCategoryImageByCategoryId } from "../api/CategoryApi";
 
@@ -7,12 +7,14 @@ export default function CategorySection() {
 
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         loadCategories();
     }, []);
 
     async function loadCategories() {
+        setLoading(true);
         try {
             const paged = await getCategoriesPaged({
                 page: 0,
@@ -45,8 +47,11 @@ export default function CategorySection() {
         } catch (err) {
             console.error(err);
         }
+        setLoading(false);
     }
 
+    if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', py: 30 }}><CircularProgress /></Box>;
+    
     return (
         <Container maxWidth="xl" sx={{ py: 6, backgroundColor: "#f5f3f2" }}  > 
             <Box sx={{
@@ -135,6 +140,7 @@ export default function CategorySection() {
                                         textDecoration: "underline"
                                     }
                                 }}
+                                onClick={() => navigate(`/store/categories/${cat.id}/products`)}
                             >
                                 Ver más
                             </Button>

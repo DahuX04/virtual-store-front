@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Container, Typography, Grid, Button, IconButton } from "@mui/material";
+import { Box, Container, Typography, Button, IconButton, CircularProgress } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useNavigate } from "react-router-dom";
 
 import { getProductsPaged, getProductImageByProductId } from "../api/ProductsApi";
 
@@ -9,12 +10,15 @@ export default function ProductsCarousel() {
 
     const [products, setProducts] = useState([]);
     const scrollRef = useRef();
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         loadProducts();
     }, []);
 
     async function loadProducts() {
+        setLoading(true);
         try {
             const paged = await getProductsPaged({
                 page: 0,
@@ -47,6 +51,7 @@ export default function ProductsCarousel() {
         } catch (err) {
             console.error(err);
         }
+        setLoading(false);
     }
 
     function scroll(direction) {
@@ -60,6 +65,8 @@ export default function ProductsCarousel() {
         });
     }
 
+    if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', py: 30 }}><CircularProgress /></Box>;
+    
     return (
         <Container maxWidth="xl" sx={{ py: 6 , backgroundColor: "#f5f3f2"}}>
 
@@ -85,6 +92,7 @@ export default function ProductsCarousel() {
                             textDecoration: "underline"
                         }
                     }}
+                    onClick={() => navigate("/store/products")}
                 >
                     Ver todo
                 </Button>
