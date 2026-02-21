@@ -2,10 +2,13 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { FaTiktok } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 import logo from "../../../assets/logo2.svg";
 
 export default function StoreFooter() {
+    const navigate = useNavigate();
+
 return (
         <Box sx={{ backgroundColor: "#2c1f1a", color: "white", pt: 6, pb: 3 }}>
 
@@ -30,10 +33,26 @@ return (
                                 sx={{ height: 60, width: "fit-content" }}
                             />
 
-                            <Box sx={{ display: "flex", gap: 2 }}>
-                                <FacebookIcon sx={{ cursor: "pointer" }} />
-                                <InstagramIcon sx={{ cursor: "pointer" }} />
-                                <FaTiktok size={22} style={{ cursor: "pointer" }} />
+                            <Box sx={{ 
+                                display: "flex", 
+                                gap: 2,
+                                "& svg": {
+                                    cursor: "pointer",
+                                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                                    opacity: 0.8,
+                                    "&:hover": {
+                                        opacity: 1,
+                                        transform: "scale(1.2) translateY(-3px)",
+                                        color: "#A67C52",
+                                        filter: "drop-shadow(0px 4px 8px rgba(0,0,0,0.3))"
+                                    }
+                                }
+                            }}>
+                                <FacebookIcon />
+                                <InstagramIcon />
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                    <FaTiktok size={22} />
+                                </Box>
                             </Box>
 
                         </Box>
@@ -53,7 +72,15 @@ return (
                                     TIENDA
                                 </Typography>
 
-                                <Typography sx={{ opacity: 0.8, cursor: "pointer" }}>
+                                <Typography 
+                                    onClick={() => navigate("/store/products")}
+                                    sx={{ 
+                                        opacity: 0.7, 
+                                        cursor: "pointer", 
+                                        transition: "all 0.2s ease",
+                                        "&:hover": { opacity: 1, transform: "translateX(4px)", color: "white" } 
+                                    }}
+                                >
                                     Ver productos
                                 </Typography>
                             </Grid>
@@ -63,11 +90,22 @@ return (
                                     COMPRAS
                                 </Typography>
 
-                                <Typography sx={{ opacity: 0.8, cursor: "pointer", mb: 1 }}>
+                                <Typography sx={{ 
+                                    opacity: 0.7, 
+                                    cursor: "pointer", 
+                                    mb: 1, 
+                                    transition: "all 0.2s ease",
+                                    "&:hover": { opacity: 1, transform: "translateX(4px)" } 
+                                }}>
                                     Mi cuenta
                                 </Typography>
 
-                                <Typography sx={{ opacity: 0.8, cursor: "pointer" }}>
+                                <Typography sx={{ 
+                                    opacity: 0.7, 
+                                    cursor: "pointer", 
+                                    transition: "all 0.2s ease",
+                                    "&:hover": { opacity: 1, transform: "translateX(4px)" } 
+                                }}>
                                     Mis pedidos
                                 </Typography>
                             </Grid>
@@ -77,7 +115,12 @@ return (
                                     CONTACTO
                                 </Typography>
 
-                                <Typography sx={{ opacity: 0.8, cursor: "pointer" }}>
+                                <Typography sx={{ 
+                                    opacity: 0.7, 
+                                    cursor: "pointer", 
+                                    transition: "all 0.2s ease",
+                                    "&:hover": { opacity: 1, transform: "translateX(4px)" } 
+                                }}>
                                     Contáctanos
                                 </Typography>
                             </Grid>

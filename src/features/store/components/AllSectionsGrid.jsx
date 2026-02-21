@@ -3,10 +3,13 @@ import { Box, Container, Grid, Typography, Button, CircularProgress } from "@mui
 import { getCategoriesPaged, getCategoryImageByCategoryId } from "../api/CategoryApi";
 import { getProductByCategory, getProductImageByProductId, getProductsPaged } from "../api/ProductsApi";
 import { useNavigate, useParams } from "react-router-dom";
+import ProductDialog from "./ProductDialog";
 
 export default function AllSectionsGrid({ title, type = "categories" }) {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [openDialog, setOpenDialog] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -19,6 +22,11 @@ export default function AllSectionsGrid({ title, type = "categories" }) {
             loadAllProducts();
         }
     }, [id, type])
+
+    const handleOpenDialog = (product) => {
+        setSelectedProduct(product);
+        setOpenDialog(true);
+    };
 
     async function loadAllCategories() {
         setLoading(true);
@@ -115,44 +123,51 @@ export default function AllSectionsGrid({ title, type = "categories" }) {
     if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', py: 40 }}><CircularProgress /></Box>;
 
     return (
-        <Container maxWidth="xl" sx={{ py: 6, backgroundColor: "#f5f3f2" }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
-                <Typography variant="h5" sx={{ fontWeight: 500, color: "#501E14" }}>
-                    {title}
-                </Typography>
-            </Box>
+        <>
+            <Container maxWidth="xl" sx={{ py: 6, backgroundColor: "#f5f3f2" }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 500, color: "#501E14" }}>
+                        {title}
+                    </Typography>
+                </Box>
 
-            <Grid container spacing={4} justifyContent="space-around">
-                {items.map(item => (
-                    <Grid item xs={12} sm={6} md={6} lg={3} key={item.id} sx={{ display: "flex", justifyContent: "center" }}>
-                        <Box sx={{ width: { xs: 400, sm: 320, md: 220, lg: 240 }, display: "flex", flexDirection: "column", color: "#2C2423" }}>
-                            <Box
-                                component="img"
-                                src={item.imageUrl || 'https://via.placeholder.com/300'} 
-                                alt={item.name}
-                                sx={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", borderRadius: 2, mb: 2 }}
-                            />
-                            <Typography sx={{ mb: 0.5, fontWeight: 500 }}>
-                                {item.name}
-                            </Typography>
-                            
-                            {item.price && (
-                                <Typography sx={{ mb: 1, color: "#501E14", fontWeight: 700 }}>
-                                    ${item.price}
+                <Grid container spacing={4} justifyContent="space-around">
+                    {items.map(item => (
+                        <Grid item xs={12} sm={6} md={6} lg={3} key={item.id} sx={{ display: "flex", justifyContent: "center" }}>
+                            <Box sx={{ width: { xs: 400, sm: 320, md: 220, lg: 240 }, display: "flex", flexDirection: "column", color: "#2C2423" }}>
+                                <Box
+                                    component="img"
+                                    src={item.imageUrl || 'https://via.placeholder.com/300'} 
+                                    alt={item.name}
+                                    sx={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", borderRadius: 2, mb: 2 }}
+                                />
+                                <Typography sx={{ mb: 0.5, fontWeight: 500 }}>
+                                    {item.name}
                                 </Typography>
-                            )}
+                                
+                                {item.price && (
+                                    <Typography sx={{ mb: 1, color: "#501E14", fontWeight: 700 }}>
+                                        ${item.price}
+                                    </Typography>
+                                )}
 
-                            <Button
-                                variant="text"
-                                onClick={() => navigate(item.link)}
-                                sx={{ color: "#2C2423", textTransform: "none", p: 0, minWidth: "auto", alignSelf: "flex-start", "&:hover": { textDecoration: "underline", backgroundColor: "transparent" } }}
-                            >
-                                Ver más
-                            </Button>
-                        </Box>
-                    </Grid>
-                ))}
-            </Grid>
-        </Container>
+                                <Button
+                                    variant="text"
+                                    onClick={() => type === "categories" ? navigate(item.link) : handleOpenDialog(item)}
+                                    sx={{ color: "#2C2423", textTransform: "none", p: 0, minWidth: "auto", alignSelf: "flex-start", "&:hover": { textDecoration: "underline", backgroundColor: "transparent" } }}
+                                >
+                                    {type === "categories" ? "Ver más" : "Ver Producto"}
+                                </Button>
+                            </Box>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+            <ProductDialog 
+                open={openDialog} 
+                onClose={() => setOpenDialog(false)}
+                productId={selectedProduct?.id}
+            />
+        </>
     );
 }

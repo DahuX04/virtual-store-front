@@ -3,6 +3,7 @@ import { Box, Container, Typography, Button, IconButton, CircularProgress } from
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
+import ProductDialog from "./ProductDialog";
 
 import { getProductsPaged, getProductImageByProductId } from "../api/ProductsApi";
 
@@ -13,9 +14,23 @@ export default function ProductsCarousel() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
+    const [selectedProductId, setSelectedProductId] = useState(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
     useEffect(() => {
         loadProducts();
     }, []);
+
+
+    const handleOpenDialog = (id) => {
+        setSelectedProductId(id);
+        setIsDialogOpen(true);
+    };
+
+    const handleCloseDialog = () => {
+        setIsDialogOpen(false);
+        setSelectedProductId(null);
+    };
 
     async function loadProducts() {
         setLoading(true);
@@ -120,6 +135,7 @@ export default function ProductsCarousel() {
                         gap: 4,
                         overflowX: "auto",
                         scrollBehavior: "smooth",
+                        pb: 2,
                         "&::-webkit-scrollbar": { display: "none" }
                     }}
                 >
@@ -127,9 +143,13 @@ export default function ProductsCarousel() {
                     {products.map(product => (
                         <Box
                             key={product.id}
+                            onClick={() => handleOpenDialog(product.id)}
                             sx={{
                                 minWidth: 220,
-                                flexShrink: 0
+                                flexShrink: 0,
+                                cursor: "pointer",
+                                transition: "transform 0.2s ease",
+                                "&:hover": { transform: "translateY(-5px)" }
                             }}
                         >
 
@@ -176,7 +196,11 @@ export default function ProductsCarousel() {
                 </IconButton>
 
             </Box>
-
+            <ProductDialog 
+                open={isDialogOpen} 
+                onClose={handleCloseDialog} 
+                productId={selectedProductId} 
+            />
         </Container>
     );
 }
