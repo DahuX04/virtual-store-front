@@ -37,7 +37,7 @@ export default function ProductsCarousel() {
         try {
             const paged = await getProductsPaged({
                 page: 0,
-                size: 8,
+                size: 10,
                 sortDir: "DESC",
             });
 
@@ -92,7 +92,7 @@ export default function ProductsCarousel() {
                 mb: 4
             }}>
                 <Typography variant="h5" sx={{ fontWeight: 500, color: "#501E14" }}>
-                    Productos
+                    Productos Destacados
                 </Typography>
 
                 <Button

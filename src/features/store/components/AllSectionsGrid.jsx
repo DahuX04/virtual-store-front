@@ -134,12 +134,24 @@ export default function AllSectionsGrid({ title, type = "categories" }) {
                 <Grid container spacing={4} justifyContent="space-around">
                     {items.map(item => (
                         <Grid item xs={12} sm={6} md={6} lg={3} key={item.id} sx={{ display: "flex", justifyContent: "center" }}>
-                            <Box sx={{ width: { xs: 400, sm: 320, md: 220, lg: 240 }, display: "flex", flexDirection: "column", color: "#2C2423" }}>
+                            <Box sx={{ width: { xs: 400, sm: 320, md: 220, lg: 240 }, display: "flex", flexDirection: "column", color: "#2C2423",
+                                transition: "transform 0.3s ease-in-out",
+                                "&:hover": { transform: "translateY(-8px)"},
+                                "&:hover img": { transform: "scale(1.1)"} }}>
                                 <Box
                                     component="img"
                                     src={item.imageUrl || 'https://via.placeholder.com/300'} 
                                     alt={item.name}
-                                    sx={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", borderRadius: 2, mb: 2 }}
+                                    sx={{ width: "100%", 
+                                        aspectRatio: "1 / 1", 
+                                        objectFit: "cover", 
+                                        borderRadius: 2, 
+                                        mb: 2,
+                                        boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+                                        transition: "box-shadow 0.3s ease",
+                                        "&:hover": {
+                                            boxShadow: "0 12px 24px rgba(0,0,0,0.12)",
+                                        }}}
                                 />
                                 <Typography sx={{ mb: 0.5, fontWeight: 500 }}>
                                     {item.name}

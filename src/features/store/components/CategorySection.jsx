@@ -108,7 +108,14 @@ export default function CategorySection() {
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "flex-start",
-                            color: "#2C2423"
+                            color: "#2C2423",
+                            transition: "transform 0.3s ease-in-out",
+                            "&:hover": {
+                                transform: "translateY(-8px)", 
+                            },
+                            "&:hover img": {
+                                transform: "scale(1.1)",
+                            }
                         }}>
 
                             <Box
@@ -120,7 +127,13 @@ export default function CategorySection() {
                                     aspectRatio: "1 / 1",
                                     objectFit: "cover",
                                     borderRadius: 2,
-                                    mb: 2
+                                    overflow: "hidden",
+                                    mb: 2,
+                                    boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+                                    transition: "box-shadow 0.3s ease",
+                                    "&:hover": {
+                                        boxShadow: "0 12px 24px rgba(0,0,0,0.12)",
+                                    }
                                 }}
                             />
 
